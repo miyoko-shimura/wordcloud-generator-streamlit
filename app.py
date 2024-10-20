@@ -4,7 +4,6 @@ import matplotlib.pyplot as plt
 import nltk
 from nltk.corpus import stopwords
 import io
-from PIL import Image
 
 nltk.download('stopwords', quiet=True)
 stop_words = set(stopwords.words('english'))
@@ -15,14 +14,15 @@ def preprocess_text(text):
     text = ' '.join(word for word in text.split() if word not in stop_words)
     return text
 
-def generate_wordcloud(text, colormap, prefer_horizontal):
+def generate_wordcloud(text, colormap, prefer_horizontal, max_font_size):
     wordcloud = WordCloud(
         width=800, 
         height=400, 
         background_color='white', 
         stopwords=STOPWORDS,
         colormap=colormap,
-        prefer_horizontal=prefer_horizontal
+        prefer_horizontal=prefer_horizontal,
+        max_font_size=max_font_size
     ).generate(text)
     
     plt.figure(figsize=(20, 10))
@@ -37,11 +37,13 @@ def plt_to_jpeg(fig):
     buf.seek(0)
     return buf
 
-st.title("Word Cloud Generator with Download")
+st.title("Word Cloud Generator with Font Size Control")
 
 text = st.text_area("Enter your text here", height=200)
 min_word_length = st.slider("Minimum Word Length", min_value=1, max_value=8, value=3)
-max_words = st.slider("Maximum Number of Words", min_value=10, max_value=200, value=100)
+
+# New parameter for controlling font size
+max_font_size = st.slider("Maximum Font Size", min_value=50, max_value=350, value=200)
 
 # Retained parameters
 colormap = st.selectbox("Color Scheme", ["viridis", "plasma", "inferno", "magma", "cividis"])
@@ -53,7 +55,8 @@ if st.button("Generate Word Cloud"):
         wordcloud_fig = generate_wordcloud(
             processed_text, 
             colormap, 
-            prefer_horizontal
+            prefer_horizontal,
+            max_font_size
         )
         st.pyplot(wordcloud_fig)
         
