@@ -44,7 +44,7 @@ text = st.text_area("Enter your text here", height=200)
 min_word_length = st.slider("Minimum Word Length", min_value=1, max_value=8, value=3)
 
 # New parameter for selecting top N words
-top_n_words = st.slider("Number of Top Words to Include", min_value=10, max_value=200, value=100)
+top_n_words = st.slider("Number of Top Words to Include", min_value=10, max_value=100, value=30)
 
 max_font_size = st.slider("Maximum Font Size", min_value=50, max_value=350, value=200)
 colormap = st.selectbox("Color Scheme", ["viridis", "plasma", "inferno", "magma", "cividis"])
